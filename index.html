@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introdução ao Novo Testamento - Estudo Interativo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #ecf0f1;
+            --text-color: #2c3e50;
+            --card-background: #ffffff;
+            --border-color: #bdc3c7;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.2);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="cross" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10,0 L10,20 M0,10 L20,10" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23cross)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--card-background);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .nav-btn.active {
+            background: var(--accent-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+            min-height: calc(100vh - 200px);
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .card h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .card ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Units Grid */
+        .units-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .unit-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .unit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--secondary-color);
+        }
+
+        .unit-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .unit-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Flashcard */
+        .flashcard-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            perspective: 1000px;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, var(--success-color), var(--secondary-color));
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .flashcard h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .flashcard p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* Quiz */
+        .quiz-container {
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        .question-card {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .question-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+        }
+
+        .options {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option {
+            background: var(--background-color);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .option:hover {
+            border-color: var(--secondary-color);
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        .option.selected {
+            border-color: var(--secondary-color);
+            background: rgba(52, 152, 219, 0.2);
+        }
+
+        .option.correct {
+            border-color: var(--success-color);
+            background: rgba(39, 174, 96, 0.2);
+        }
+
+        .option.incorrect {
+            border-color: var(--accent-color);
+            background: rgba(231, 76, 60, 0.2);
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+        }
+
+        .btn-danger {
+            background: var(--accent-color);
+        }
+
+        /* Controls */
+        .controls {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-btn {
+                width: 200px;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .units-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .flashcard {
+                height: 250px;
+            }
+
+            .flashcard-front,
+            .flashcard-back {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .flashcard {
+                height: 200px;
+            }
+
+            .flashcard-front,
+            .flashcard-back {
+                padding: 1rem;
+            }
+
+            .flashcard h3 {
+                font-size: 1.2rem;
+            }
+
+            .flashcard p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .hidden { display: none; }
+        .visible { display: block; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Introdução ao Novo Testamento</h1>
+            <p>Estudo Interativo e Abrangente</p>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-container">
+                <button class="nav-btn active" onclick="showSection('home')">Início</button>
+                <button class="nav-btn" onclick="showSection('units')">Unidades</button>
+                <button class="nav-btn" onclick="showSection('flashcards')">Flashcards</button>
+                <button class="nav-btn" onclick="showSection('quiz')">Quiz</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Home Section -->
+            <section id="home" class="section active">
+                <div class="card">
+                    <h2>Bem-vindo ao Estudo do Novo Testamento</h2>
+                    <p>Esta aplicação interativa foi desenvolvida para proporcionar um estudo abrangente e sistemático da Introdução ao Novo Testamento. Aqui você encontrará conteúdo detalhado sobre cada livro, contextos históricos, autoria, e muito mais.</p>
+                    
+                    <h3>Como usar esta aplicação:</h3>
+                    <ul>
+                        <li><strong>Unidades:</strong> Explore o conteúdo organizado por temas e livros bíblicos</li>
+                        <li><strong>Flashcards:</strong> Revise conceitos importantes de forma interativa</li>
+                        <li><strong>Quiz:</strong> Teste seus conhecimentos com perguntas sobre o conteúdo estudado</li>
+                    </ul>
+
+                    <h3>Estrutura do Curso:</h3>
+                    <p>O curso está organizado em 15 unidades principais, cobrindo desde a metodologia de estudo até o livro do Apocalipse, passando por todos os contextos históricos, culturais e religiosos necessários para uma compreensão profunda do Novo Testamento.</p>
+                </div>
+            </section>
+
+            <!-- Units Section -->
+            <section id="units" class="section">
+                <div class="card">
+                    <h2>Unidades de Estudo</h2>
+                    <p>Selecione uma unidade para estudar o conteúdo detalhado:</p>
+                </div>
+
+                <div class="units-grid" id="unitsGrid">
+                    <!-- Units will be populated by JavaScript -->
+                </div>
+
+                <!-- Unit Content Display -->
+                <div id="unitContent" class="hidden">
+                    <div class="card">
+                        <button class="btn" onclick="showUnits()">← Voltar às Unidades</button>
+                        <div id="unitContentBody">
+                            <!-- Content will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Flashcards Section -->
+            <section id="flashcards" class="section">
+                <div class="card">
+                    <h2>Flashcards - Revisão Interativa</h2>
+                    <p>Clique no cartão para ver a resposta. Use os botões para navegar entre os cartões.</p>
+                </div>
+
+                <div class="flashcard-container">
+                    <div class="flashcard" id="flashcard" onclick="flipCard()">
+                        <div class="flashcard-front">
+                            <div>
+                                <h3>Carregando...</h3>
+                                <p>Preparando flashcards...</p>
+                            </div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div>
+                                <h3>Resposta</h3>
+                                <p>Carregando...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn" onclick="previousCard()">← Anterior</button>
+                    <span id="cardCounter">1 / 1</span>
+                    <button class="btn" onclick="nextCard()">Próximo →</button>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="flashcardProgress" style="width: 0%"></div>
+                </div>
+            </section>
+
+            <!-- Quiz Section -->
+            <section id="quiz" class="section">
+                <div class="card">
+                    <h2>Quiz - Teste seus Conhecimentos</h2>
+                    <p>Responda às perguntas para testar seu conhecimento sobre o Novo Testamento.</p>
+                </div>
+
+                <div class="quiz-container" id="quizContainer">
+                    <!-- Quiz questions will be populated by JavaScript -->
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-primary" onclick="startQuiz()">Iniciar Quiz</button>
+                    <button class="btn btn-success hidden" id="submitQuiz" onclick="submitQuiz()">Finalizar Quiz</button>
+                    <button class="btn" onclick="resetQuiz()">Reiniciar</button>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="quizProgress" style="width: 0%"></div>
+                </div>
+
+                <div id="quizResults" class="card hidden">
+                    <h3>Resultados do Quiz</h3>
+                    <p id="quizScore"></p>
+                    <div id="quizFeedback"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Introdução ao Novo Testamento - Estudo Interativo. Desenvolvido para fins educacionais.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Application state
+        let currentSection = 'home';
+        let currentFlashcard = 0;
+        let currentQuiz = [];
+        let quizAnswers = {};
+        let flashcards = [];
+        let units = [];
+
+        // Units data
+        const unitsData = [
+            {
+                id: 1,
+                title: "Introdução ao curso",
+                subtitle: "Definição e metodologia da Introdução ao Novo Testamento",
+                description: "Fundamentos teológicos e metodológicos para o estudo do Novo Testamento",
+                content: `
+                    <h2>Unidade 1 - Introdução ao curso</h2>
+                    <h3>Definição e metodologia da Introdução ao Novo Testamento</h3>
+                    
+                    <p>A palavra "teologia" vem do grego <em>Theós</em> (Deus) e <em>Lógos</em> (linguagem que encerra ideia, palavra). Assim, teologia significa "ideia de Deus" ou "ideia a respeito de Deus", no sentido de um sistema de conhecimentos resultantes de estudo.</p>
+                    
+                    <p>A Teologia do Novo Testamento é o estudo que enfatiza e explora o conteúdo do Novo Testamento do ponto de vista teológico. Ela pressupõe o trabalho do exegeta para detalhar a interpretação de um texto.</p>
+                    
+                    <h3>Classificação da Teologia:</h3>
+                    <ul>
+                        <li><strong>Teologia naturalista ou teodicéia:</strong> Busca o conhecimento divino através da observação humana da natureza e da racionalização.</li>
+                        <li><strong>Teologia Sistemática:</strong> Organiza os fatos teológicos em um sistema racional.</li>
+                        <li><strong>Teologia Bíblica:</strong> Tem as Escrituras como fonte exclusiva.</li>
+                        <li><strong>Teologia Bíblica do Novo Testamento:</strong> Objetivo específico de conhecer Deus através de Jesus.</li>
+                    </ul>
+                    
+                    <h3>Relação com outras matérias teológicas:</h3>
+                    <p>A Introdução ao Novo Testamento possui uma relação intrínseca e complementar com outras áreas do estudo teológico, servindo como alicerce fundamental para a compreensão das Escrituras.</p>
+                `
+            },
+            {
+                id: 2,
+                title: "O período intertestamentário",
+                subtitle: "Contexto histórico e literatura",
+                description: "Estudo do período entre o Antigo e Novo Testamento",
+                content: `
+                    <h2>Unidade 2 - O período intertestamentário</h2>
+                    
+                    <h3>Contexto histórico</h3>
+                    <p>O período intertestamentário, também conhecido como "período silencioso", refere-se aos aproximadamente 400 anos entre o último livro do Antigo Testamento (Malaquias) e o início do Novo Testamento.</p>
+                    
+                    <h3>Principais eventos:</h3>
+                    <ul>
+                        <li><strong>Domínio Persa (539-332 a.C.):</strong> Período de relativa paz para os judeus</li>
+                        <li><strong>Conquista de Alexandre (332 a.C.):</strong> Início da influência helenística</li>
+                        <li><strong>Período Ptolomaico (323-198 a.C.):</strong> Domínio egípcio sobre a Palestina</li>
+                        <li><strong>Período Selêucida (198-142 a.C.):</strong> Perseguição e revolta dos Macabeus</li>
+                        <li><strong>Período Hasmoneu (142-63 a.C.):</strong> Independência judaica</li>
+                        <li><strong>Domínio Romano (63 a.C. em diante):</strong> Contexto do Novo Testamento</li>
+                    </ul>
+                    
+                    <h3>Literatura do período</h3>
+                    <p>Durante este período, desenvolveu-se uma rica literatura judaica, incluindo livros deuterocanônicos, apócrifos e pseudepígrafos que influenciaram o pensamento judaico da época de Jesus.</p>
+                `
+            },
+            {
+                id: 3,
+                title: "Contextos do Novo Testamento",
+                subtitle: "Político, cultural e religioso",
+                description: "O mundo em que Jesus e os apóstolos viveram",
+                content: `
+                    <h2>Unidade 3 - Contextos políticos, culturais e religiosos do Novo Testamento</h2>
+                    
+                    <h3>Contexto político</h3>
+                    <p>O Novo Testamento foi escrito durante o domínio do Império Romano, que proporcionou estabilidade política, excelente sistema de estradas e uma língua comum (grego koiné).</p>
+                    
+                    <h3>Contexto cultural</h3>
+                    <p>A cultura helenística influenciou profundamente o mundo mediterrâneo, criando um ambiente multicultural onde o cristianismo se desenvolveu.</p>
+                    
+                    <h3>Contexto religioso</h3>
+                    <p>O judaísmo do primeiro século era diversificado, com várias seitas e movimentos:</p>
+                    <ul>
+                        <li><strong>Fariseus:</strong> Enfatizavam a observância da Lei oral</li>
+                        <li><strong>Saduceus:</strong> Aristocracia sacerdotal, negavam a ressurreição</li>
+                        <li><strong>Essênios:</strong> Comunidade monástica no deserto</li>
+                        <li><strong>Zelotes:</strong> Movimento revolucionário anti-romano</li>
+                    </ul>
+                `
+            },
+            {
+                id: 4,
+                title: "O Cânon e os Textos",
+                subtitle: "História do Cânon do Novo Testamento",
+                description: "Formação e critérios de canonicidade",
+                content: `
+                    <h2>Unidade 4 - O Cânon e os Textos do Novo Testamento</h2>
+                    
+                    <h3>História do Cânon</h3>
+                    <p>O cânon do Novo Testamento não foi estabelecido de uma só vez, mas desenvolveu-se gradualmente através de um processo que durou vários séculos.</p>
+                    
+                    <h3>Critérios de canonicidade:</h3>
+                    <ul>
+                        <li><strong>Apostolicidade:</strong> Autoria apostólica ou conexão com os apóstolos</li>
+                        <li><strong>Ortodoxia:</strong> Conformidade com a fé apostólica</li>
+                        <li><strong>Catolicidade:</strong> Aceitação universal pela igreja</li>
+                        <li><strong>Inspiração:</strong> Evidência de inspiração divina</li>
+                    </ul>
+                    
+                    <h3>Marcos importantes:</h3>
+                    <p>O Fragmento Muratoriano (c. 170-200 d.C.) é uma das primeiras listas canônicas. O Concílio de Cartago (397 d.C.) ratificou oficialmente os 27 livros do Novo Testamento.</p>
+                `
+            },
+            {
+                id: 5,
+                title: "Os Evangelhos Sinóticos",
+                subtitle: "Problema Sinótico, Mateus, Marcos e Lucas",
+                description: "Estudo comparativo dos três primeiros evangelhos",
+                content: `
+                    <h2>Unidade 5 - Os Evangelhos Sinóticos</h2>
+                    
+                    <h3>Problema Sinótico</h3>
+                    <p>O Problema Sinótico refere-se às semelhanças e diferenças entre Mateus, Marcos e Lucas. A teoria mais aceita é a das "Duas Fontes": Marcos foi escrito primeiro, e Mateus e Lucas usaram Marcos e uma fonte comum chamada "Q".</p>
+                    
+                    <h3>Evangelho de Mateus</h3>
+                    <ul>
+                        <li><strong>Autor:</strong> Tradicionalmente atribuído ao apóstolo Mateus</li>
+                        <li><strong>Data:</strong> 80-90 d.C.</li>
+                        <li><strong>Propósito:</strong> Apresentar Jesus como o Messias prometido</li>
+                        <li><strong>Características:</strong> Ênfase no cumprimento das profecias</li>
+                    </ul>
+                    
+                    <h3>Evangelho de Marcos</h3>
+                    <ul>
+                        <li><strong>Autor:</strong> João Marcos, companheiro de Pedro</li>
+                        <li><strong>Data:</strong> 65-70 d.C.</li>
+                        <li><strong>Propósito:</strong> Apresentar Jesus como o Servo sofredor</li>
+                        <li><strong>Características:</strong> Narrativa rápida e dinâmica</li>
+                    </ul>
+                    
+                    <h3>Evangelho de Lucas</h3>
+                    <ul>
+                        <li><strong>Autor:</strong> Lucas, médico e companheiro de Paulo</li>
+                        <li><strong>Data:</strong> 80-85 d.C.</li>
+                        <li><strong>Propósito:</strong> Apresentar Jesus como Salvador universal</li>
+                        <li><strong>Características:</strong> Ênfase na misericórdia e inclusão</li>
+                    </ul>
+                `
+            },
+            {
+                id: 6,
+                title: "Evangelhos Sinóticos e João",
+                subtitle: "Relação e diferenças",
+                description: "Comparação entre os Sinóticos e o Quarto Evangelho",
+                content: `
+                    <h2>Unidade 6 - Os Evangelhos Sinóticos e João</h2>
+                    
+                    <h3>Diferenças principais:</h3>
+                    <ul>
+                        <li><strong>Cronologia:</strong> João apresenta um ministério de 3 anos vs. 1 ano nos Sinóticos</li>
+                        <li><strong>Geografia:</strong> João enfatiza o ministério na Judéia</li>
+                        <li><strong>Estilo:</strong> João usa discursos longos vs. parábolas nos Sinóticos</li>
+                        <li><strong>Teologia:</strong> João enfatiza a divindade de Cristo</li>
+                    </ul>
+                    
+                    <h3>Semelhanças:</h3>
+                    <ul>
+                        <li>Narrativa da Paixão</li>
+                        <li>Multiplicação dos pães</li>
+                        <li>Caminhada sobre as águas</li>
+                        <li>Entrada triunfal</li>
+                    </ul>
+                `
+            },
+            {
+                id: 7,
+                title: "O Evangelho de João",
+                subtitle: "Características únicas do Quarto Evangelho",
+                description: "Estudo detalhado do Evangelho de João",
+                content: `
+                    <h2>Unidade 7 - O Evangelho de João</h2>
+                    
+                    <h3>Autoria e Data</h3>
+                    <ul>
+                        <li><strong>Autor:</strong> João, o discípulo amado</li>
+                        <li><strong>Data:</strong> 90-100 d.C.</li>
+                        <li><strong>Local:</strong> Provavelmente Éfeso</li>
+                    </ul>
+                    
+                    <h3>Propósito</h3>
+                    <p>"Estes sinais foram escritos para que creiais que Jesus é o Cristo, o Filho de Deus, e para que, crendo, tenhais vida em seu nome" (João 20:31).</p>
+                    
+                    <h3>Características distintivas:</h3>
+                    <ul>
+                        <li><strong>Sete sinais:</strong> Milagres que revelam a glória de Jesus</li>
+                        <li><strong>Declarações "Eu Sou":</strong> Revelam a identidade divina de Jesus</li>
+                        <li><strong>Discursos de despedida:</strong> Capítulos 14-17</li>
+                        <li><strong>Prólogo teológico:</strong> João 1:1-18</li>
+                    </ul>
+                `
+            },
+            {
+                id: 8,
+                title: "Atos e a Igreja Primitiva",
+                subtitle: "História da igreja apostólica",
+                description: "O crescimento da igreja desde Jerusalém até Roma",
+                content: `
+                    <h2>Unidade 8 - Atos e a igreja primitiva</h2>
+                    
+                    <h3>Atos dos Apóstolos</h3>
+                    <ul>
+                        <li><strong>Autor:</strong> Lucas</li>
+                        <li><strong>Data:</strong> 80-85 d.C.</li>
+                        <li><strong>Propósito:</strong> Narrar a expansão do cristianismo</li>
+                    </ul>
+                    
+                    <h3>Estrutura:</h3>
+                    <ul>
+                        <li><strong>Atos 1-7:</strong> Igreja em Jerusalém</li>
+                        <li><strong>Atos 8-12:</strong> Expansão na Judéia e Samaria</li>
+                        <li><strong>Atos 13-28:</strong> Missões aos gentios</li>
+                    </ul>
+                    
+                    <h3>Princípios da igreja primitiva:</h3>
+                    <ul>
+                        <li>Perseverança na doutrina apostólica</li>
+                        <li>Comunhão fraternal</li>
+                        <li>Partir do pão</li>
+                        <li>Oração</li>
+                        <li>Partilha de bens</li>
+                    </ul>
+                `
+            }
+        ];
+
+        // Flashcards data
+        const flashcardsData = [
+            {
+                question: "O que significa a palavra 'teologia'?",
+                answer: "Vem do grego Theós (Deus) e Lógos (palavra), significando 'ideia de Deus' ou 'ideia a respeito de Deus'."
+            },
+            {
+                question: "Quais são os critérios de canonicidade do Novo Testamento?",
+                answer: "Apostolicidade, Ortodoxia, Catolicidade e Inspiração."
+            },
+            {
+                question: "O que é o Problema Sinótico?",
+                answer: "Refere-se às semelhanças e diferenças entre os evangelhos de Mateus, Marcos e Lucas."
+            },
+            {
+                question: "Qual é a teoria mais aceita para explicar o Problema Sinótico?",
+                answer: "A teoria das 'Duas Fontes': Marcos foi escrito primeiro, e Mateus e Lucas usaram Marcos e uma fonte comum chamada 'Q'."
+            },
+            {
+                question: "Quais são as principais seitas judaicas do primeiro século?",
+                answer: "Fariseus, Saduceus, Essênios e Zelotes."
+            },
+            {
+                question: "Qual é o propósito declarado do Evangelho de João?",
+                answer: "'Para que creiais que Jesus é o Cristo, o Filho de Deus, e para que, crendo, tenhais vida em seu nome' (João 20:31)."
+            },
+            {
+                question: "Quantos anos durou o período intertestamentário?",
+                answer: "Aproximadamente 400 anos, entre Malaquias e o início do Novo Testamento."
+            },
+            {
+                question: "Quais são os quatro princípios da igreja primitiva mencionados em Atos 2:42?",
+                answer: "Perseverança na doutrina apostólica, comunhão fraternal, partir do pão e oração."
+            },
+            {
+                question: "Qual evangelho enfatiza Jesus como o Messias prometido?",
+                answer: "O Evangelho de Mateus."
+            },
+            {
+                question: "Quem é tradicionalmente considerado o autor do livro de Atos?",
+                answer: "Lucas, o médico e companheiro de Paulo."
+            },
+            {
+                question: "Qual é a diferença principal entre Teologia Bíblica e Teologia Sistemática?",
+                answer: "A Teologia Bíblica tem as Escrituras como fonte exclusiva, enquanto a Teologia Sistemática organiza doutrinas usando revelação, filosofia e outras ciências."
+            },
+            {
+                question: "O que caracteriza o Evangelho de Marcos?",
+                answer: "Narrativa rápida e dinâmica, apresentando Jesus como o Servo sofredor."
+            }
+        ];
+
+        // Quiz data
+        const quizData = [
+            {
+                question: "Qual é o significado etimológico da palavra 'teologia'?",
+                options: [
+                    "Estudo de Deus",
+                    "Palavra de Deus",
+                    "Ideia de Deus",
+                    "Conhecimento divino"
+                ],
+                correct: 2,
+                explanation: "Teologia vem do grego Theós (Deus) e Lógos (palavra/ideia), significando 'ideia de Deus'."
+            },
+            {
+                question: "Quantos anos durou aproximadamente o período intertestamentário?",
+                options: [
+                    "200 anos",
+                    "300 anos", 
+                    "400 anos",
+                    "500 anos"
+                ],
+                correct: 2,
+                explanation: "O período intertestamentário durou aproximadamente 400 anos, entre Malaquias e o início do Novo Testamento."
+            },
+            {
+                question: "Qual teoria é mais aceita para explicar o Problema Sinótico?",
+                options: [
+                    "Teoria das Quatro Fontes",
+                    "Teoria das Duas Fontes",
+                    "Teoria da Dependência Mútua",
+                    "Teoria da Tradição Oral"
+                ],
+                correct: 1,
+                explanation: "A teoria das Duas Fontes propõe que Marcos foi escrito primeiro, e Mateus e Lucas usaram Marcos e uma fonte Q."
+            },
+            {
+                question: "Qual evangelho apresenta Jesus como Salvador universal?",
+                options: [
+                    "Mateus",
+                    "Marcos",
+                    "Lucas",
+                    "João"
+                ],
+                correct: 2,
+                explanation: "Lucas enfatiza a universalidade da salvação e a misericórdia de Jesus para com todos os povos."
+            },
+            {
+                question: "Quais são os critérios de canonicidade do Novo Testamento?",
+                options: [
+                    "Apostolicidade, Ortodoxia, Catolicidade, Inspiração",
+                    "Autenticidade, Autoridade, Antiguidade, Aceitação",
+                    "Historicidade, Teologia, Moralidade, Espiritualidade",
+                    "Originalidade, Clareza, Utilidade, Popularidade"
+                ],
+                correct: 0,
+                explanation: "Os quatro critérios principais são: Apostolicidade, Ortodoxia, Catolicidade e Inspiração."
+            },
+            {
+                question: "Qual seita judaica negava a ressurreição dos mortos?",
+                options: [
+                    "Fariseus",
+                    "Saduceus",
+                    "Essênios",
+                    "Zelotes"
+                ],
+                correct: 1,
+                explanation: "Os Saduceus, que eram a aristocracia sacerdotal, negavam a ressurreição dos mortos."
+            },
+            {
+                question: "Qual é o propósito declarado do Evangelho de João?",
+                options: [
+                    "Apresentar Jesus como Rei",
+                    "Mostrar Jesus como Servo",
+                    "Provar que Jesus é o Cristo",
+                    "Narrar a vida de Jesus"
+                ],
+                correct: 2,
+                explanation: "João 20:31 declara que foi escrito 'para que creiais que Jesus é o Cristo, o Filho de Deus'."
+            },
+            {
+                question: "Quem é tradicionalmente considerado o autor de Atos dos Apóstolos?",
+                options: [
+                    "Paulo",
+                    "Pedro",
+                    "Lucas",
+                    "João"
+                ],
+                correct: 2,
+                explanation: "Lucas, o médico e companheiro de Paulo, é tradicionalmente considerado o autor de Atos."
+            },
+            {
+                question: "Qual evangelho foi provavelmente escrito primeiro?",
+                options: [
+                    "Mateus",
+                    "Marcos",
+                    "Lucas",
+                    "João"
+                ],
+                correct: 1,
+                explanation: "Marcos é geralmente considerado o primeiro evangelho a ser escrito, por volta de 65-70 d.C."
+            },
+            {
+                question: "Quantos livros compõem o cânon do Novo Testamento?",
+                options: [
+                    "25",
+                    "26",
+                    "27",
+                    "28"
+                ],
+                correct: 2,
+                explanation: "O Novo Testamento é composto por 27 livros, ratificados oficialmente no Concílio de Cartago em 397 d.C."
+            }
+        ];
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeUnits();
+            initializeFlashcards();
+            initializeQuiz();
+        });
+
+        // Navigation functions
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+
+            // Update navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            currentSection = sectionName;
+        }
+
+        // Units functions
+        function initializeUnits() {
+            const unitsGrid = document.getElementById('unitsGrid');
+            unitsGrid.innerHTML = '';
+
+            unitsData.forEach(unit => {
+                const unitCard = document.createElement('div');
+                unitCard.className = 'unit-card';
+                unitCard.onclick = () => showUnitContent(unit);
+                
+                unitCard.innerHTML = `
+                    <h3>${unit.title}</h3>
+                    <p><strong>${unit.subtitle}</strong></p>
+                    <p>${unit.description}</p>
+                `;
+                
+                unitsGrid.appendChild(unitCard);
+            });
+        }
+
+        function showUnitContent(unit) {
+            document.getElementById('unitsGrid').classList.add('hidden');
+            document.getElementById('unitContent').classList.remove('hidden');
+            document.getElementById('unitContentBody').innerHTML = unit.content;
+        }
+
+        function showUnits() {
+            document.getElementById('unitsGrid').classList.remove('hidden');
+            document.getElementById('unitContent').classList.add('hidden');
+        }
+
+        // Flashcards functions
+        function initializeFlashcards() {
+            flashcards = [...flashcardsData];
+            currentFlashcard = 0;
+            updateFlashcard();
+        }
+
+        function updateFlashcard() {
+            if (flashcards.length === 0) return;
+
+            const card = flashcards[currentFlashcard];
+            const flashcardElement = document.getElementById('flashcard');
+            
+            // Reset flip state
+            flashcardElement.classList.remove('flipped');
+            
+            // Update content
+            flashcardElement.querySelector('.flashcard-front h3').textContent = 'Pergunta';
+            flashcardElement.querySelector('.flashcard-front p').textContent = card.question;
+            flashcardElement.querySelector('.flashcard-back h3').textContent = 'Resposta';
+            flashcardElement.querySelector('.flashcard-back p').textContent = card.answer;
+            
+            // Update counter
+            document.getElementById('cardCounter').textContent = `${currentFlashcard + 1} / ${flashcards.length}`;
+            
+            // Update progress
+            const progress = ((currentFlashcard + 1) / flashcards.length) * 100;
+            document.getElementById('flashcardProgress').style.width = progress + '%';
+        }
+
+        function flipCard() {
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        function previousCard() {
+            if (currentFlashcard > 0) {
+                currentFlashcard--;
+                updateFlashcard();
+            }
+        }
+
+        function nextCard() {
+            if (currentFlashcard < flashcards.length - 1) {
+                currentFlashcard++;
+                updateFlashcard();
+            }
+        }
+
+        // Quiz functions
+        function initializeQuiz() {
+            currentQuiz = [...quizData];
+            quizAnswers = {};
+            displayQuizInstructions();
+        }
+
+        function displayQuizInstructions() {
+            const quizContainer = document.getElementById('quizContainer');
+            quizContainer.innerHTML = `
+                <div class="question-card">
+                    <h3>Instruções do Quiz</h3>
+                    <p>Este quiz contém ${quizData.length} perguntas sobre o conteúdo estudado. Selecione a resposta que considera correta para cada pergunta.</p>
+                    <p>Ao final, você receberá sua pontuação e feedback sobre as respostas.</p>
+                    <p>Clique em "Iniciar Quiz" quando estiver pronto.</p>
+                </div>
+            `;
+        }
+
+        function startQuiz() {
+            quizAnswers = {};
+            displayQuizQuestions();
+            document.getElementById('submitQuiz').classList.remove('hidden');
+            document.getElementById('quizResults').classList.add('hidden');
+        }
+
+        function displayQuizQuestions() {
+            const quizContainer = document.getElementById('quizContainer');
+            quizContainer.innerHTML = '';
+
+            currentQuiz.forEach((question, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                
+                questionCard.innerHTML = `
+                    <h3>Pergunta ${index + 1}</h3>
+                    <p>${question.question}</p>
+                    <div class="options">
+                        ${question.options.map((option, optionIndex) => `
+                            <div class="option" onclick="selectOption(${index}, ${optionIndex})">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                quizContainer.appendChild(questionCard);
+            });
+
+            updateQuizProgress();
+        }
+
+        function selectOption(questionIndex, optionIndex) {
+            // Remove previous selection
+            const questionCard = document.querySelectorAll('.question-card')[questionIndex];
+            questionCard.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+
+            // Add new selection
+            const selectedOption = questionCard.querySelectorAll('.option')[optionIndex];
+            selectedOption.classList.add('selected');
+
+            // Store answer
+            quizAnswers[questionIndex] = optionIndex;
+
+            updateQuizProgress();
+        }
+
+        function updateQuizProgress() {
+            const answeredQuestions = Object.keys(quizAnswers).length;
+            const progress = (answeredQuestions / currentQuiz.length) * 100;
+            document.getElementById('quizProgress').style.width = progress + '%';
+        }
+
+        function submitQuiz() {
+            let correctAnswers = 0;
+            const totalQuestions = currentQuiz.length;
+
+            // Check answers and provide feedback
+            currentQuiz.forEach((question, index) => {
+                const userAnswer = quizAnswers[index];
+                const isCorrect = userAnswer === question.correct;
+                
+                if (isCorrect) {
+                    correctAnswers++;
+                }
+
+                // Update visual feedback
+                const questionCard = document.querySelectorAll('.question-card')[index];
+                const options = questionCard.querySelectorAll('.option');
+                
+                options.forEach((option, optionIndex) => {
+                    if (optionIndex === question.correct) {
+                        option.classList.add('correct');
+                    } else if (optionIndex === userAnswer && !isCorrect) {
+                        option.classList.add('incorrect');
+                    }
+                });
+            });
+
+            // Calculate score
+            const score = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            // Display results
+            displayQuizResults(score, correctAnswers, totalQuestions);
+            
+            // Hide submit button
+            document.getElementById('submitQuiz').classList.add('hidden');
+        }
+
+        function displayQuizResults(score, correct, total) {
+            const resultsDiv = document.getElementById('quizResults');
+            const scoreText = document.getElementById('quizScore');
+            const feedbackDiv = document.getElementById('quizFeedback');
+
+            scoreText.textContent = `Sua pontuação: ${score}% (${correct}/${total} corretas)`;
+
+            let feedback = '';
+            if (score >= 90) {
+                feedback = 'Excelente! Você demonstra um ótimo domínio do conteúdo.';
+            } else if (score >= 70) {
+                feedback = 'Muito bom! Você tem um bom entendimento do material.';
+            } else if (score >= 50) {
+                feedback = 'Razoável. Recomenda-se revisar alguns tópicos.';
+            } else {
+                feedback = 'É recomendável estudar mais o conteúdo antes de tentar novamente.';
+            }
+
+            feedbackDiv.innerHTML = `<p>${feedback}</p>`;
+            resultsDiv.classList.remove('hidden');
+        }
+
+        function resetQuiz() {
+            initializeQuiz();
+            document.getElementById('submitQuiz').classList.add('hidden');
+            document.getElementById('quizResults').classList.add('hidden');
+            document.getElementById('quizProgress').style.width = '0%';
+        }
+    </script>
+</body>
+</html>
+
